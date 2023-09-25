@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: 'Log - Servidor de Almacenamiento de Tareas'
+  description: "Esta es la  documentación para la API de la aplicación Log: Servidor de Almacenamiento de Tareas."
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: lualquigo@gmail.com
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 0.0.1
+servers:
+  -
+    url: 'https://log.not-a-real-server.com/swagger/Log/0.0.1'
+    description: 'Servidor principal'
+paths:
+  /log/find-all:
+    get:
+      tags:
+        - log
+      summary: 'Obtiene todas las tareas del sistema.'
+      operationId: findAllLogs
+      responses:
+        '200':
+          description: 'Tareas encontradas.'
+  /log/find:
+    get:
+      tags:
+        - log
+      summary: 'Obtiene una única tarea del sistema.'
+      requestBody:
+      responses:
+        '200':
+          description: 'Tarea obtenida.'
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'Id de la tarea a obtener.'
+          required: true
+          explode: true
+          schema:
+            type: integer
+            format: int64
+  /log/create:
+    post:
+      tags:
+        - log
+      summary: 'Crea una nueva tarea en el sistema.'
+      requestBody:
+        $ref: '#/components/requestBodies/CreateLog'
+      responses:
+        '200':
+          description: 'Tarea creada.'
+  /log/delete:
+    post:
+      tags:
+        - log
+      summary: 'Elimina una tarea del sistema.'
+      responses:
+        '200':
+          description: 'Tarea eliminada.'
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'Id de la tarea a obtener.'
+          required: true
+          explode: true
+          schema:
+            type: integer
+            format: int64
+  /log/patch:
+    post:
+      tags:
+        - log
+      summary: 'Actualiza una tarea del sistema'
+      requestBody:
+        $ref: '#/components/requestBodies/PatchLog'
+      responses:
+        '200':
+          description: 'Tarea actualizada.'
+components:
+  schemas:
+    CreateLog:
+      title: 'Modelo de creación de una tarea.'
+      description: 'Modelo de una tarea que se va a crear en el sistema.'
+      required:
+        - content
+      properties:
+        content:
+          title: 'Contenido'
+          description: 'Contenido de la tarea.'
+          type: string
+    PatchLog:
+      title: 'Modelo de actualización de una tarea.'
+      description: 'Modelo de una tarea que se va a actualizar en el sistema.'
+      required:
+        - id
+        - content
+      properties:
+        id:
+          title: 'ID'
+          description: 'ID de la tarea.'
+          type: integer
+          format: int64
+        content:
+          title: 'Contenido'
+          description: 'Contenido de la tarea.'
+          type: string
+    Log:
+      title: 'Modelo de una tarea.'
+      description: 'Modelo de una tarea en el sistema.'
+      required:
+        - id
+        - content
+        - user_id
+      properties:
+        id:
+          title: 'ID'
+          description: 'ID de la tarea.'
+          type: integer
+          format: int64
+        content:
+          title: 'Contenido'
+          description: 'Contenido de la tarea.'
+          type: string
+        user_id:
+          title: 'User ID'
+          description: 'ID del usuario dueño de la tarea.'
+          type: integer
+          format: int64
+  requestBodies:
+    CreateLog:
+      description: 'Tarea que requiere ser agregada al sistema.'
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateLog'
+    PatchLog:
+      description: 'Tarea que requiere ser actualizada en el sistema.'
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatchLog'
+tags:
+  - name: log
+    description: 'Tareas de los usuarios'
+externalDocs:
+  description: 'Find out more about Swagger'
+  url: 'http://swagger.io'
