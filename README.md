@@ -1,66 +1,83 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><img src="https://github.com/GoldenCodeRam/kiibo-tr/blob/main/public/img/logo.svg" width="250" alt="Project Logo"></p>
+
+# Project Log
+
+Este es un proyecto creado como respuesta a una prueba técnica como desarrollador Frontend y Backend para la empresa Kiibo. Las generalidades del proyecto se encuentran a continuación:
+
+El proyecto es generado como una aplicación Full-Stack, generada con el framework web de [Laravel](https://laravel.com/), la cual cuenta con tres (3) partes importantes, generadas a respuesta de una serie de enunciados requeridos para la correcta ejecución del proyecto;
+> - Crear un servicio web, que permita a los usuarios autorizados la gestión de sus tareas:
+Consultar, Crear, Modificar, Borrar. (Ver Servicios Web Disponibles e Interface Gráfica)
+>  - Crear las pruebas unitarias para comprobar el correcto funcionamiento de los métodos
+ofrecidos por el servicio
+>  - Documentar el servicio utilizando una herramienta tipo Swagger.
+    Publicar el código en un repositorio de GitHub. Para la revisión y evaluación
+
+Como se puede observar, se requiere una aplicación que posea un portal web para la visualización del proyecto, un servicio para almacenar y controlar usuarios y sus registros, y una base de datos para el almacenamiento de los datos. El desarrollo de cada uno de estos puntos se describe a continuación.
+
+## Servicio Web
+
+Como se expone con anterioridad, el servicio web es creado con el framework web de [Laravel](https://laravel.com/), junto con una base de datos relacional, usando el motor de bases de datos [MySQL](https://www.mysql.com/). El modelo relacional usado para la base de datos se muestra a continuación:
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    <img src="https://github.com/GoldenCodeRam/kiibo-tr/assets/46252493/2c760f0d-9072-4882-b552-01a57f200f34">
+    <br>
+    Imagen 1: Modelo relacional simplificado usado para el proyecto.
 </p>
 
-## About Laravel
+Para la creación de la base de datos y una subida de datos de prueba, se hizo uso de las migraciones y el proceso de _seeding_, ofrecido por el framework de [Laravel](https://laravel.com/).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Para la interfaz web se hizo uso del framework de [Inertia.js](https://inertiajs.com/), junto con el framework de JavaScript [Vue.js](https://vuejs.org/). Las demás dependencias, tanto del servicio web, como de la interfaz web, se pueden encontrar en sus respectivos archivos.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Ejecución del Servicio Web
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Para la ejecución del proyecto se hizo uso del sistema de contenedores y virtualización [Docker](https://www.docker.com/). Y sus pasos generales se enuncian a continuación:
 
-## Learning Laravel
+Para iniciar la base de datos para un entorno de desarrollo local:
+```bash
+docker compose up
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Para iniciar el servicio web en un entorno de desarrollo local:
+```bash
+# Clonar el proyecto.
+git clone https://github.com/GoldenCodeRam/kiibo-tr
+cd kiibo-tr
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# Instalar dependencias
+composer install
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Generar archivo de variables de entorno
+cp .env.example .env
+# Generar llave para el proyecto
+php artisan key:generate
 
-## Laravel Sponsors
+# Generar base de datos y migraciones
+php artisan migrate --seed
+# Seeder para las tareas de prueba
+php artisan db:seed LogSeeder
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+# Iniciar proyecto en modo de desarrollo
+php artisan serve
+```
 
-### Premium Partners
+Para iniciar la interfaz web en un entorno de desarrollo local:
+```bash
+# Instalar dependencias
+npm install
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+# Iniciar proyecto en modo de desarrollo
+npm run dev
+```
 
-## Contributing
+Una vez se haya creado la base de datos, el servicio web y la interfaz, el proyecto estará funcionando correctamente.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Pruebas Unitarias
 
-## Code of Conduct
+Las pruebas unitarias y de funcionalidad se hicieron a través del framework web de [Laravel](https://laravel.com/). Éstas se pueden ejecutar de manera sencilla, haciendo uso del comando:
+```bash
+php artisan test
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Documentación
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Para la documentación, se hizo uso de la librería de [Swagger](https://swagger.io/) para [Laravel](https://laravel.com/); [L5-Swagger](https://github.com/DarkaOnLine/L5-Swagger). Y su despliegue se puede encontrar en la ruta: `api/documentation` del servicio web.
